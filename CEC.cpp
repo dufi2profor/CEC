@@ -152,4 +152,8 @@ void CEC_LogicalDevice::Run()
 	return;
 }
 
+bool CEC_LogicalDevice::IsIdle()
+{
+	return	_doneReceiving;
+}
 
