@@ -8,6 +8,7 @@ CEC_Electrical::CEC_Electrical(int address)
 	_address = address & 0x0f;
 	_amLastTransmittor = false;
 	_transmitPending = false;
+	_doneReceiving = false;
 	_xmitretry = 0;
 	ResetState();
 }
@@ -179,6 +180,7 @@ unsigned long CEC_Electrical::Process()
 		break;
 
 	case CEC_RECEIVE:
+		_doneReceiving = false;
 		switch (_secondaryState)
 		{
 		case CEC_RCV_STARTBIT1:
@@ -281,6 +283,7 @@ unsigned long CEC_Electrical::Process()
 				// therefore this message is all done.  Go back
 				// to the IDLE state and wait for another start bit.
 				ProcessFrame();
+				_doneReceiving = true;
 			        waitTime = ResetState() ? micros() : (unsigned long)-1;
 				break;
 			}
@@ -320,6 +323,7 @@ unsigned long CEC_Electrical::Process()
 					// therefore this message is all done.  Go back
 					// to the IDLE state and wait for another start bit.
 					ProcessFrame();
+					_doneReceiving = true;
 			                waitTime = ResetState() ? micros() : (unsigned long)-1;
 					break;
 				}
