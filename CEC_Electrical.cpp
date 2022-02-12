@@ -15,6 +15,7 @@ CEC_Electrical::CEC_Electrical(int address)
 
 void CEC_Electrical::Initialize()
 {
+	ResetState();
 	_lastLineState = LineState();
 	_lastStateChangeTime = micros();
 }
